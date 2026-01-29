@@ -8,6 +8,7 @@ export default function Editor() {
   const dispatch = useDispatch()
   const text = useSelector(s => s.notes.currentText)
   const [error, setError] = React.useState('')
+  const title = (text || '').split('\n')[0].trim() || 'Untitled'
   async function saveNote() {
     setError('')
     const t = text.trim()
@@ -33,12 +34,15 @@ export default function Editor() {
   }
   return (
     <div>
-      <h2 className="text-lg mb-2">Editor</h2>
+      <div className="flex items-center justify-between mb-2">
+        <h2 className="text-lg">Page: <span className="font-semibold">{title}</span></h2>
+        <div className="text-xs text-gray-500">{text.length} chars</div>
+      </div>
       <textarea
         value={text}
         onChange={(e) => dispatch(notes.setCurrentText(e.target.value))}
         placeholder="Paste your long notes here"
-        className="w-full min-h-[280px] p-3 border border-gray-300 rounded-lg outline-none"
+        className="w-full min-h-[420px] p-3 border border-gray-300 rounded-lg outline-none"
       />
       <div className="flex gap-2 mt-2">
         <button onClick={saveNote} className="px-3 py-2 rounded bg-blue-600 text-white">Save Note</button>
