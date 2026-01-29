@@ -1,13 +1,68 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>client</title>
+    <title>Smart Notes Summarizer</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial; margin: 0; background: #f6f7f8; color: #222; }
+      header { padding: 16px 24px; background: #fff; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+      .container { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 16px; }
+      .pane { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; }
+      textarea { width: 100%; min-height: 280px; resize: vertical; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; outline: none; }
+      button { padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; background: #fff; cursor: pointer; }
+      button.primary { background: #2563eb; border-color: #2563eb; color: #fff; }
+      .toolbar { display: flex; gap: 8px; margin-top: 8px; }
+      h2 { margin: 0 0 8px; font-size: 18px; }
+      ul { padding-left: 20px; }
+      .list { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
+      .chat { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+      input[type="text"] { padding: 8px; border: 1px solid #d1d5db; border-radius: 6px; }
+      .note-item { padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
+      .note-actions { display: flex; gap: 6px; }
+      .muted { color: #6b7280; font-size: 12px; }
+      .error { color: #b91c1c; }
+    </style>
+    <!-- React 18 UMD -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Redux Toolkit UMD -->
+    <script src="https://unpkg.com/@reduxjs/toolkit@2.2.3/dist/redux-toolkit.umd.min.js"></script>
+    <!-- App -->
+    <script defer src="./app.js"></script>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <header>
+      <strong>Smart Notes Summarizer</strong>
+      <span class="muted">Free AI backend (Groq/Together) • Secure • SQLite</span>
+    </header>
+    <div id="app" class="container">
+      <div class="pane" id="left-pane">
+        <h2>Editor</h2>
+        <textarea id="editor" placeholder="Paste your long notes here"></textarea>
+        <div class="toolbar">
+          <button id="saveBtn" class="primary">Save Note</button>
+          <button id="summarizeBtn">Summarize</button>
+        </div>
+        <div class="list" id="notesList"></div>
+      </div>
+      <div class="pane" id="right-pane">
+        <h2>Summary</h2>
+        <div id="summaryText" class="muted">No summary yet</div>
+        <h2 style="margin-top:12px">Bullet Points</h2>
+        <ul id="bulletList"></ul>
+        <h2 style="margin-top:12px">Key Takeaways</h2>
+        <ul id="takeawayList"></ul>
+        <hr style="margin:16px 0" />
+        <h2>Chatbot</h2>
+        <div class="chat">
+          <input id="chatInput" type="text" placeholder="Ask for recommendations..." />
+          <button id="chatBtn">Send</button>
+        </div>
+        <div id="chatResp" class="list"></div>
+        <div id="errorBox" class="error"></div>
+      </div>
+    </div>
   </body>
-</html>
+  </html>
